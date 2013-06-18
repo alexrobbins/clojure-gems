@@ -36,7 +36,7 @@ There are some extra-wonderful functions/features that you might not know about.
 
 (let [[_ a] input]
   a)
-  ;; {:key "value"}
+  ;; {:key "value" :key2 "value"}
 
 (let [[_ {a :key}] input]
   a)
@@ -44,7 +44,7 @@ There are some extra-wonderful functions/features that you might not know about.
 
 (let [[_ {:keys [:key :key2] :as whole-map}] input]
   [key key2 whole-map)
-  ;; ["value" "value2" {:key "value" :key2 "value2"}]
+  ;; ["value" "value2" {:key "value" :key2 "value2"}]]
 ```
 ---
 
