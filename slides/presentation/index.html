@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/reset.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="shortcut icon" href="css/favicon.png" />
+    <link rel="apple-touch-icon" href="css/apple-touch-icon.png" />
+    <!-- Code Prettifier: -->
+<link href="css/highlight.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+    <link href="css/style.css" rel="stylesheet" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,800italic,300,400,800' rel='stylesheet' type='text/css'>    
+
+
+  </head>
+
+  <body>
+  <div class="fallback-message">
+  <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+  <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+  </div>
+    <div id="impress">
+    <div class='step' >
+    
+<h1>Clojure Gems</h1>
+
+<h2>Hidden Beauties in Clojure</h2>
+
+<p>Alex Robbins &nbsp;&nbsp;&nbsp;&nbsp; <img src="images/factual-high-res.png" alt="factual-logo" title="Factual"></p>
+</div>
+      <div class='step' >
+    
+<h1>Clojure is wonderful</h1>
+
+<p>There are some extra-wonderful functions/features that you might not know about. You can get by without these functions, but with them you&#39;ll be happier.</p>
+</div>
+      <div class='step' >
+    
+<h1>Data structures are their own best functions!</h1>
+<pre><code class='prettyprint clojure'>(map {:a 1 :b 2} [:a :c])
+;; (1 nil)
+
+(map #{:a} [:a :b])
+;; (:a nil)
+
+([:a :b] 0)
+;; :a
+</code></pre></div>
+      <div class='step' >
+    
+<h1>Destructuring</h1>
+<pre><code class='prettyprint clojure'>(def input [1 {:key "value" :key2 "value2"}])
+
+(let [[a] input]
+  a)
+  ;; 1
+
+(let [[_ a] input]
+  a)
+  ;; {:key "value"}
+
+(let [[_ {a :key}] input]
+  a)
+  ;; "value"
+
+(let [[_ {:keys [:key :key2] :as whole-map}] input]
+  [key key2 whole-map)
+  ;; ["value" "value2" {:key "value" :key2 "value2"}]
+</code></pre></div>
+      <div class='step' >
+    
+<h1>zero? pos? neg?</h1>
+
+<h1>even? odd?</h1>
+<pre><code class='prettyprint clojure'>(map zero? [0 1])
+;; (true false)
+
+(map pos? [0 1])
+;; (false true)
+</code></pre></div>
+      <div class='step' >
+    
+<h1>not=</h1>
+
+<h2>No more #(not (= %1 %2))</h2>
+<pre><code class='prettyprint '>(not= 0 1)
+;; true
+</code></pre></div>
+      <div class='step' >
+    
+<h1>compare</h1>
+
+<h2>General purpose greater-than</h2>
+<pre><code class='prettyprint '>(compare 0 1)
+;; -1
+(compare "b" "a")
+;; 1
+(compare :a :a)
+;; 0
+</code></pre></div>
+      <div class='step' >
+    
+<h1>for</h1>
+
+<h2>:let :while :when</h2>
+<pre><code class='prettyprint '>(for [x (range)
+      :let [x2 (* x x)]
+      :when (odd? x)
+      :while (< x2 100)]
+     [x x2])
+;; ([1 1] [3 9] [5 25] [7 49] [9 81])
+</code></pre></div>
+      <div class='step' >
+    
+<h1>mapcat</h1>
+
+<h2>(apply concat (map f s))</h2>
+<pre><code class='prettyprint '>(mapcat (fn [x] [x (* x x)]) [0 1 2])
+;; (0 0 1 1 2 4)
+
+(mapcat expand-variant-spellings ["Alexander" "John"])
+["Alexander" "Aleksander" "Alex" "John" "Jon"]
+</code></pre></div>
+      <div class='step' >
+    
+<h1>zipmap</h1>
+
+<h2>Make a map from keyseq and valseq</h2>
+<pre><code class='prettyprint '>(zipmap [:a :b :c] (range))
+;; {:c 2, :b 1, :a 0}
+</code></pre></div>
+      <div class='step' >
+    
+<h1>pmap</h1>
+
+<h2>Run map in parallel</h2>
+<pre><code class='prettyprint '>(pmap inc (range 100000000))
+;; same as (map inc (range 100000000)), but computed on all cores
+</code></pre></div>
+      <div class='step' >
+    
+<h1>reductions</h1>
+
+<h2>freeze-frame for reduce</h2>
+<pre><code class='prettyprint '>(reductions + [1 1 1 1 1])
+;; (1 2 3 4 5)
+
+(reductions conj [] [1 2 3])
+;; ([] [1] [1 2] [1 2 3])
+</code></pre></div>
+      <div class='step' >
+    
+<h1>condp</h1>
+
+<h2>Great function, crazy doc string</h2>
+<pre><code class='prettyprint '>(condp = (:type {:type :person :name "Alex"})
+  :person (println "Person found")
+  :canine (println "Dog found"))
+</code></pre></div>
+      <div class='step' >
+    
+<h1>group-by</h1>
+
+<h2>A personal favorite!</h2>
+<pre><code class='prettyprint '>(group-by :suspicious [{:name "Alex"  :suspicious false}
+                       {:name "Chris" :suspicious true}
+                       {:name "Lee"   :suspicious false}])
+;; {false [{:suspicious false, :name "Alex"}
+           {:suspicious false, :name "Lee"}],
+    true  [{:suspicious true,  :name "Chris"}]}
+</code></pre></div>
+      <div class='step' >
+    
+<h1>get-in</h1>
+
+<h2>Reach into nested maps</h2>
+<pre><code class='prettyprint '>(get-in {:a {:b 1}} [:a :b])
+;; 1
+</code></pre></div>
+      <div class='step' >
+    
+<h1>constantly</h1>
+
+<h2>Make a constant function</h2>
+<pre><code class='prettyprint '>(map (constantly 1) [1 2 3 4])
+;; (1 1 1 1)
+</code></pre></div>
+      <div class='step' >
+    
+<h1>fnil</h1>
+
+<h2>Automatic nil checks</h2>
+<pre><code class='prettyprint '>(def nil-patched-+ (fnil + 1))
+(nil-patched-+ nil 2)
+;; 3
+</code></pre></div>
+      <div class='step' >
+    
+<h1>Clojure Gems</h1>
+
+<h2>Hidden Beauties in Clojure</h2>
+
+<p>Alex Robbins</p>
+
+<ul>
+<li><a href="mailto:alexr@factual.com">alexr@factual.com</a> &nbsp;&nbsp;&nbsp;&nbsp; <img src="images/factual-high-res.png" alt="factual-logo" title="Factual"></li>
+<li><a href="mailto:alexander.j.robbins@gmail.com">alexander.j.robbins@gmail.com</a></li>
+<li><a href="https://github.com/alexrobbins/clojure-gems">https://github.com/alexrobbins/clojure-gems</a></li>
+</ul>
+
+<p>Factual is hiring!</p>
+
+      </div>
+    <script src="js/impress.js"></script>
+    <script>impress().init();</script>
+  </body>
+</html>
+    
