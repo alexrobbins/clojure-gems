@@ -4,6 +4,8 @@ Code and slides showing some hidden beauties in Clojure.
 
 Not related to Ruby gems and Clojure.
 
+Slides are available at http://alexrobbins.github.io/clojure-gems/
+
 ## Usage
 
 The slides are being constructed by [mdpress](https://github.com/egonSchiele/mdpress).
