@@ -43,8 +43,8 @@ There are some extra-wonderful functions/features that you might not know about.
   ;; "value"
 
 (let [[_ {:keys [:key :key2] :as whole-map}] input]
-  [key key2 whole-map)
-  ;; ["value" "value2" {:key "value" :key2 "value2"}]]
+  [key key2 whole-map])
+  ;; ["value" "value2" {:key "value" :key2 "value2"}]
 ```
 ---
 
