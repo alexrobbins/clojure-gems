@@ -11,7 +11,7 @@ There are some extra-wonderful functions/features that you might not know about.
 
 ---
 
-# Data structures are their own best functions!
+# Data structures are functions.
 
 ```clojure
 (map {:a 1 :b 2} [:a :c])
@@ -124,6 +124,15 @@ There are some extra-wonderful functions/features that you might not know about.
 ```
 ---
 
+# Threading Macros
+```
+(-> :a f1 f2 (f3 :b) <=> (f3 (f2 (f1 :a)) :b)
+(->> :a f1 f2 (f3 :b) <=> (f3 :b (f2 (f1 :a)))
+```
+Think of it as data being threaded through a pipeline.
+
+---
+
 # reductions
 ## freeze-frame for reduce
 
@@ -159,11 +168,26 @@ There are some extra-wonderful functions/features that you might not know about.
 ```
 ---
 
+# frequencies
+```
+(frequencies [:a :a :b :a :c])
+;; {:a 3 :b 1 :c 1}
+```
+---
+
 # get-in
 ## Reach into nested maps
 ```
 (get-in {:a {:b 1}} [:a :b])
 ;; 1
+```
+---
+
+# update-in
+## Reach into nested maps and change things
+```
+(update-in {:a {:b 1}} [:a :b] + 3)
+;; {:a {:b 4}}
 ```
 ---
 
@@ -183,6 +207,44 @@ There are some extra-wonderful functions/features that you might not know about.
 (nil-patched-+ nil 2)
 ;; 3
 ```
+---
+
+# Testing
+## clojure.test
+
+---
+
+# is
+```
+(deftest test-my-func
+  (is (= 2 (+ 1 1))))
+```
+---
+
+# are
+```
+(deftest test-my-func
+  (are [input output]
+       (= (* input input) output)
+       0  0
+       1  1
+       2  4
+       3  9
+       4 16))
+```
+---
+
+# with-redefs
+```
+(declare db-call summary)
+(defn summary []
+  (+ (db-call 1) (db-call 2)))
+
+(deftest test-summary
+  (with-redefs [db-call (constantly 2)]
+    (is (= (summary) 4))))
+```
+
 ---
 
 # Clojure Gems

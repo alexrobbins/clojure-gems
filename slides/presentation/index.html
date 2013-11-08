@@ -40,7 +40,7 @@
 </div>
       <div class='step' >
     
-<h1>Data structures are their own best functions!</h1>
+<h1>Data structures are functions.</h1>
 <pre><code class='prettyprint clojure'>(map {:a 1 :b 2} [:a :c])
 ;; (1 nil)
 
@@ -143,6 +143,14 @@
 </code></pre></div>
       <div class='step' >
     
+<h1>Threading Macros</h1>
+<pre><code class='prettyprint '>(-> :a f1 f2 (f3 :b) <=> (f3 (f2 (f1 :a)) :b)
+(->> :a f1 f2 (f3 :b) <=> (f3 :b (f2 (f1 :a)))
+</code></pre>
+<p>Think of it as data being threaded through a pipeline.</p>
+</div>
+      <div class='step' >
+    
 <h1>reductions</h1>
 
 <h2>freeze-frame for reduce</h2>
@@ -175,11 +183,25 @@
 </code></pre></div>
       <div class='step' >
     
+<h1>frequencies</h1>
+<pre><code class='prettyprint '>(frequencies [:a :a :b :a :c])
+;; {:a 3 :b 1 :c 1}
+</code></pre></div>
+      <div class='step' >
+    
 <h1>get-in</h1>
 
 <h2>Reach into nested maps</h2>
 <pre><code class='prettyprint '>(get-in {:a {:b 1}} [:a :b])
 ;; 1
+</code></pre></div>
+      <div class='step' >
+    
+<h1>update-in</h1>
+
+<h2>Reach into nested maps and change things</h2>
+<pre><code class='prettyprint '>(update-in {:a {:b 1}} [:a :b] + 3)
+;; {:a {:b 4}}
 </code></pre></div>
       <div class='step' >
     
@@ -197,6 +219,41 @@
 <pre><code class='prettyprint '>(def nil-patched-+ (fnil + 1))
 (nil-patched-+ nil 2)
 ;; 3
+</code></pre></div>
+      <div class='step' >
+    
+<h1>Testing</h1>
+
+<h2>clojure.test</h2>
+</div>
+      <div class='step' >
+    
+<h1>is</h1>
+<pre><code class='prettyprint '>(deftest test-my-func
+  (is (= 2 (+ 1 1))))
+</code></pre></div>
+      <div class='step' >
+    
+<h1>are</h1>
+<pre><code class='prettyprint '>(deftest test-my-func
+  (are [input output]
+       (= (* input input) output)
+       0  0
+       1  1
+       2  4
+       3  9
+       4 16))
+</code></pre></div>
+      <div class='step' >
+    
+<h1>with-redefs</h1>
+<pre><code class='prettyprint '>(declare db-call summary)
+(defn summary []
+  (+ (db-call 1) (db-call 2)))
+
+(deftest test-summary
+  (with-redefs [db-call (constantly 2)]
+    (is (= (summary) 4))))
 </code></pre></div>
       <div class='step' >
     
